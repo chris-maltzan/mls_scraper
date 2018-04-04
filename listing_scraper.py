@@ -1,13 +1,19 @@
 from bs4 import BeautifulSoup
 import re
-import urllib2
+#import urllib2
 import lxml
 import pandas as pd
 import os
 from mapstest import get_latlong
-def scrape_listing(url):
 
-#take url and spit out a df with labels and values from the listing
+
+def scrape_listing(url):
+    """
+    Scrapes a url for information
+    """
+
+
+    #take url and spit out a df with labels and values from the listing
     page = open(url)
     soup = BeautifulSoup(page.read(), "html.parser")
     
@@ -73,12 +79,12 @@ def merge_data2(dir):
     for listing in os.listdir(dir):
         
         if listing.endswith('.html'):
-            print listing
+            print (listing)
             listing_df = scrape_listing(listing)
             listing_df.set_index('labels', inplace=True)
 
             if merged_df.empty:
-                print "EMPTY"
+                print("EMPTY")
                 merged_df = listing_df 
                 #merged_df.set_index('labels')
             else:
@@ -90,7 +96,7 @@ def merge_data2(dir):
     merged_df.to_csv('merged_df.csv')
 def main():
     #listing_url = r"archstreet.html"
-    dir = 'C:\Users\Tom\Desktop\mls_scraper\listings'
+    dir = '/Users/maltzanc/Desktop/mls_scraper/listings'
     cwd = os.getcwd()
     os.chdir(dir)
     merge_data2(dir)
